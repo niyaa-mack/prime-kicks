@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+  </head>
+  <body>
+  {% include "components/navbar.html.jinja" %}
+<h1 class=" text-3xl text-center underline text-semibold"> Browse </h1>
+<br>
+<hr>
+<div class="bg-yellow-100">
+<main class="grid grid-cols-4 gap-4 mx-2 p-7 mb-5 bg-">
+    {% for x in products %}
+        <div class="grid hover:scale-80 hover:bg-gray-300">
+            <img class="max-h-48 max-w-40" src="{{x['Image']}}"> <br>
+            <div> {{x["Name"]}} </div> <br>
+            <div> ${{x["Cost"]}} </div> <br>
+             Size: {{x["Size"]}}
+    </div>
+    {% endfor %}
+</main>
+  </body> 
+</html></div>
