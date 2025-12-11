@@ -8,18 +8,20 @@
   </head>
   <body>
   {% include "components/navbar.html.jinja" %}
-<h1 class=" text-3xl text-center underline text-semibold"> Browse </h1>
+<h1 class=" text-3xl text-center underline text-yellow-400 text-semibold"> Browse </h1>
 <br>
 <hr>
 <div class="bg-yellow-100">
 <main class="grid grid-cols-4 gap-4 mx-2 p-7 mb-5 bg-">
     {% for x in products %}
-        <div class="grid hover:scale-80 hover:bg-gray-300">
-            <img class="max-h-48 max-w-40" src="{{x['Image']}}"> <br>
-            <div> {{x["Name"]}} </div> <br>
-            <div> ${{x["Cost"]}} </div> <br>
-             Size: {{x["Size"]}}
+    <a href="/product/{{ x['ID'] }}" class="grid p-2 gap-2">
+        <div class="grid hover:scale-108 hover:bg-gray-300 border-2">
+            <img class="max-h-48 justify-items-center max-w-40" src="{{x['Image']}}"> <br>
+            <p class="text-xl">{{x["Name"]}} </p> <br>
+            <p> ${{x["Cost"]}} </p> <br>
+             <p>Size: {{x["Size"]}}</p>
     </div>
+    </a>
     {% endfor %}
 </main>
   </body> 

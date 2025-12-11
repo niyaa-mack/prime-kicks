@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+  
+  {% include "components/navbar.html.jinja" %}
+  
+    <div class="border-2 h-170 bg-white mt-16 w-280 ml-50">
+
+        <img class="max-h-100 grid ml-30 max-w-116" src="{{product['Image']}}" alt="{{product['Name']}}"> 
+      
+        <h1 class="ml-203 mt-40 text-2xl flex-auto grid text-xl font-semibold text-gray-900 ">{{product["Name"]}} </h1>
+<br>
+        <p class="ml-200"> $ {{product["Cost"]}} </p> 
+         
+        <p class="ml-200">Size: {{product["Size"]}}</p>
+
+        <button class="h-10 px-9 ml-220 font-semibold hover:rounded-md border border-balck-800 text-gray-900" type="button">
+            Add to cart </button>
+    </div>
+    
+  </body>   
+</html> 
