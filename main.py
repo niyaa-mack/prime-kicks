@@ -4,9 +4,13 @@ import pymysql
 
 from dynaconf import Dynaconf
 
+from flask import request, redirect, url_for, render_template
+
 config = Dynaconf(settings_file=["settings.toml"])
 
 app = Flask(__name__)
+
+users = []
 
 def connect_db():
     conn = pymysql.connect(
@@ -51,3 +55,38 @@ def product_page(product_id):
     connection.close()
 
     return render_template("product.html.jinja", product=result)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username == "admin" and password == "password":
+            return redirect(url_for("index"))
+        
+        else:
+            return render_template("login.html.jinja",
+                                error="Invalid username or password")
+
+    return render_template("login.html.jinja")
+
+@app.route("/signup", methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        users.append({
+            'username': username,
+            'email': email,
+            'password': password
+        })
+
+        print("User registered:", username, email)
+        return redirect(url_for('login'))
+
+    return render_template('signup.html.jinja')

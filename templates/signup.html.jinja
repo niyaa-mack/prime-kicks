@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+  </head>
+  <body>
+  {% include "components/navbar.html.jinja" %}
+<form class=" bg-gray-200 ml-15 mt-70 space-y-5">
+<div class="py-2.5 w-100">
+    <label class="block mb-1 text-gray-600 font-medium">Full Name</label>
+    <input class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" type="text" placeholder="Bryan Smith">
+    <br>
+    <label class="block mb-1 text-gray-600 font-medium">Email</label>
+    <input class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" type="email" placeholder="abcdefgh@gmail.com">
+    <br>
+    <label class="block mb-1 text-gray-600 font-medium">Password</label>
+    <input class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" type="password" placeholder="34nddw-74hdbcd-2dhcd">
+    <br>
+    <div>
+        <label class="block mb-1 text-gray-600 font-medium">Confirm Password</label>
+        <input type="password"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
+          placeholder="••••••••" />
+      </div>
+    <br>    
+    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-lg font-medium transition"" type="submit">Create Account</button>
+    </div>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p> 
+</form>
+
+
+</body> 
+</html>
