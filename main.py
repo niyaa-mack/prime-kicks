@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, flash
 
+from flask_login import LoginManager, login_user
+
 import pymysql
 
 from dynaconf import Dynaconf
@@ -12,7 +14,34 @@ app = Flask(__name__)
 
 app.secret_key = config.secret_key 
 
-users = []
+login_manager = LoginManager(app)
+
+class User:
+    is_authenticated = True
+    is_active = True
+    is_annoymous = False 
+
+    def __init__(self, result):
+        self.name = result['Name']
+        self.email = result['Email']
+        self.address = result['Address']
+        self.id = result['ID']
+
+    def get_id(self):
+        return str(self.id)
+    
+@login_manager.user_loader
+def load_user(user_id):
+    connection = connect_db()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM `User` WHERE `ID` = %s ", (user_id) )
+    result = cursor.fetchone()
+    connection.close()
+
+    if result is None:
+        return None
+    
+    return User(result)
 
 def connect_db():
     conn = pymysql.connect(
@@ -63,15 +92,26 @@ def product_page(product_id):
 def login():
     if request.method == "POST":
 
-        username = request.form.get("username")
-        password = request.form.get("password")
+        email = request.form('email')
+        password = request.form('password')
 
-        if username == "admin" and password == "password":
-            return redirect(url_for("index"))
-        
+        connection = connect_db()
+
+        cursor = connection.cursor()
+
+        cursor.execute(" SELECT * FROM `User` WHERE `Email` = %s " , (email))
+
+        result = cursor.fetchone()
+
+        connection.close()
+
+        if result is None:
+            flash("No user found")
+        elif password != result["Password"]:
+            flash("Wrong password")
         else:
-            return render_template("login.html.jinja",
-                                error="Invalid username or password")
+            login_user(User(result))
+            return redirect("/browse")
 
     return render_template("login.html.jinja")
 
@@ -96,12 +136,16 @@ def signup():
             connection = connect_db()
             
             cursor = connection.cursor()
-
-            cursor.execute("""
+        try:
+            cursor.execute("""  
                 INSERT INTO `User` ( `Name`, `Email`, `Password`, `Address` )
                 VALUES (%s, %s, %s, %s )
             """, (name, email, password, address) )
-
-            return redirect(/'login.html.jinja')
+            connection.close()
+        except pymysql.err.IntegrityError: 
+            flash("This email already has an account")
+            connection.close()
+        else:
+            return redirect('/login.html.jinja')
 
     return render_template('signup.html.jinja')

@@ -8,9 +8,10 @@
   </head>
   <body>
   {% include "components/navbar.html.jinja" %}
-<div class="min-h-screen bg-gray-100 flex flex-col justify-center">
+  
+<div class="min-h-screen bg-white flex item-center justify-center">
   <div class="p-10 mx-auto md:w-full md:max-w-md">
-
+<form>
     <h1 class="font-bold text-center text-2xl mb-5">LOGIN</h1>  
     <div class="bg-white shadow w-150 justify-items-center rounded-lg ">
       <div class="px-5 py-7">
@@ -19,9 +20,9 @@
         <input type="text" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
 
         <label class="font-semibold text-sm text-gray-600 pb-1">Password</label>
-        <input type="text" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+        <input type="password" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
 
-        <button type="button" class="bg-blue-500 focus:bg-blue-700 focus:ring-2 text-white w-full py-2.5 text-md shadow-sm font-semibold text-center">
+        <button type="button" class="bg-blue-500 focus:bg-blue-700 border focus:ring-2 text-white w-full py-2.5 text-md shadow-sm font-semibold text-center">
             <span class="inline-block mr-2">Login</span>
         </button>
 
@@ -31,10 +32,7 @@
         <div class="grid grid-cols-2 gap-1">
           <div class="text-center whitespace-nowrap">
             
-            <button class="mx-3 px-3 py-2 cursor-pointer font-sans text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-gray-400">
-                <span class="inline-block ml-49">Forgot Password</span>
-            </button>
-            <p class="hover:bg-gray-100 focus:ring-2 focus:ring-gray-400">Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+            <p class="hover:bg-gray-100 focus:ring-2 border py-2.5  focus:ring-gray-400">Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
           </div>
         </div>
       </div>
@@ -50,7 +48,7 @@
       </div>
   </div>
 </div>
-
+</form>
 
 
   </body> 

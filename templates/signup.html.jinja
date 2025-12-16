@@ -12,6 +12,7 @@
 {% for message in get_flashed_messages() %}
         <li> {{message}} </li>
     {% endfor %}
+
 <form class=" bg-gray-200 ml-15 mt-40 space-y-5" method="Post">
 <div class="py-2.5 ">
     <label class="block mb-1 text-gray-600 font-medium">Full Name</label>
@@ -34,7 +35,7 @@
 
     <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-lg font-medium transition"" type="submit">Create Account</button>
     </div>
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p> 
+     <a class= "border" href="{{ url_for('login') }}">Login here</a>
 </form>
 
 
