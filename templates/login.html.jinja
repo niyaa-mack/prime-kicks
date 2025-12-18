@@ -8,19 +8,21 @@
   </head>
   <body>
   {% include "components/navbar.html.jinja" %}
-  
+    {% for message in get_flashed_messages() %}
+            <li> {{message}} </li>
+        {% endfor %}
 <div class="min-h-screen bg-white flex item-center justify-center">
   <div class="p-10 mx-auto md:w-full md:max-w-md">
-<form>
+<form method="post">
     <h1 class="font-bold text-center text-2xl mb-5">LOGIN</h1>  
     <div class="bg-white shadow w-150 justify-items-center rounded-lg ">
       <div class="px-5 py-7">
 
         <label class="font-semibold text-sm text-gray-600 pb-1">E-mail</label>
-        <input type="text" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+        <input name="email" required type="text" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
 
         <label class="font-semibold text-sm text-gray-600 pb-1">Password</label>
-        <input type="password" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+        <input name="password" required type="password" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
 
         <button type="button" class="bg-blue-500 focus:bg-blue-700 border focus:ring-2 text-white w-full py-2.5 text-md shadow-sm font-semibold text-center">
             <span class="inline-block mr-2">Login</span>

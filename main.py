@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, abort
 
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user, login_required
 
 import pymysql
 
@@ -15,6 +15,9 @@ app = Flask(__name__)
 app.secret_key = config.secret_key 
 
 login_manager = LoginManager(app)
+login_manager.login_view = '/login'
+
+
 
 class User:
     is_authenticated = True
@@ -43,6 +46,7 @@ def load_user(user_id):
     
     return User(result)
 
+
 def connect_db():
     conn = pymysql.connect(
         host="db.steamcenter.tech", 
@@ -55,9 +59,11 @@ def connect_db():
 
     return conn
 
+
 @app.route("/home")
 def index():
     return render_template("homepage.html.jinja")
+
 
 @app.route("/browse")
 def browse():
@@ -73,6 +79,7 @@ def browse():
 
     return render_template("browse.html.jinja", products=result)
 
+
 @app.route("/product/<product_id>")
 def product_page(product_id):
     connection = connect_db()
@@ -85,15 +92,18 @@ def product_page(product_id):
 
     connection.close()
 
+    if result is None:
+        abort(404)
+
     return render_template("product.html.jinja", product=result)
 
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == "POST":
+    if request.method == 'POST':
 
-        email = request.form('email')
-        password = request.form('password')
+        email = request.form['email']
+        password = request.form['password']
 
         connection = connect_db()
 
@@ -114,6 +124,9 @@ def login():
             return redirect("/browse")
 
     return render_template("login.html.jinja")
+
+
+
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
@@ -149,3 +162,23 @@ def signup():
             return redirect('/login.html.jinja')
 
     return render_template('signup.html.jinja')
+
+
+@app.route("/settings")
+@login_required
+def settings():
+    pass
+
+
+@app.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    logout_user()
+    return redirect("/homepage.html.jinja")
+
+@app.route("/dashboard", methods=["GET", "POST"])
+@login_required
+def dashboard():   
+    return render_template("dashboard.html.jinja ")
+
+
