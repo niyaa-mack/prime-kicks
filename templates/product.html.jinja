@@ -9,19 +9,31 @@
   
   {% include "components/navbar.html.jinja" %}
   
-    <div class="border-2 h-170 bg-white mt-16 w-280 ml-50">
+   <div class="border-2 bg-white mt-16 max-w-7xl w mx-auto p-8 flex gap-10">
 
-        <img class="max-h-100 grid ml-30 max-w-116" src="{{product['Image']}}" alt="{{product['Name']}}"> 
-      
-        <h1 class="ml-203 mt-40 text-2xl flex-auto grid text-xl font-semibold text-gray-900 ">{{product["Name"]}} </h1>
-<br>
-        <p class="ml-200"> $ {{product["Cost"]}} </p> 
-         
-        <p class="ml-200">Size: {{product["Size"]}}</p>
+    <img
+        src="{{ product['Image'] }}"
+        alt="{{ product['Name'] }}"
+        class="w-80 h-80 object-contain"
+    >
 
-        <button class="h-10 px-9 ml-220 font-semibold hover:rounded-md border border-balck-800 text-gray-900" type="button">
-            Add to cart </button>
+    <div>
+        <h1 class="text-2xl font-semibold mt-6 text-gray-900">
+            {{ product["Name"] }}
+        </h1>
+
+        <p class="mt-6 text-lg">$ {{ product["Cost"] }}</p>
+        <p class="mt-6">Size: {{ product["Size"] }}</p>
+
+        <form method="post" action="/product/{{ product['ID'] }}/add_to_cart" class="mt-6">
+            <label>Qty:</label>
+            <input type="number" name="qty" value="1" min="1" max="4" class="border ml-2 w-16">
+            <button type="submit" class="block mt-4 h-10 px-6 font-semibold border hover:bg-gray-200 rounded-md"> Add to cart </button>
+        </form>
     </div>
+
+</div>
+
     
   </body>   
 </html> 
