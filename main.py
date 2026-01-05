@@ -197,9 +197,50 @@ def logout():
     return redirect("/homepage.html.jinja")
 
 
-@app.route("/dashboard", methods=["GET", "POST"])
+@app.route("/cart")
+def cart():   
+    connection = connect_db()
+    cursor = connection.cursor()
+    cursor.execute("""
+        SELECT * FROM `Cart`
+        JOIN `Product` ON `Product`.`ID` = `Cart`.`ProductID`
+        WHERE `UserID` = %s; 
+        """,(current_user.id))
+    
+    results = cursor.fetchall()
+
+    if len(results) == 0:
+        flash("Cart empty")
+
+    connection.close()
+
+    return render_template("cart.html.jinja", cart=results)
+
+
+@app.route("/cart/<product_id>/update_qty", methods = ["POST"])
 @login_required
-def dashboard():   
-    return render_template("dashboard.html.jinja ")
+def update_cart(product_id):
+    new_qty = request.form["qty"]
+    connection = connect_db()
+    cursor = connection.cursor()
+    cursor.execute("""
+    UPDATE `Cart` 
+    SET `Quantity` = %s 
+    WHERE `ProductID` = %s AND `UserID` = %s 
+""", (new_qty, product_id, current_user.id) )
+    
+    connection.close()
+
+    return redirect("/cart")
 
 
+@app.route("/cart/<product_id>/remove_item", methods=['POST'])
+@login_required
+def remove_item(product_id):
+    remove = request.form["dele"]
+    connection = connect_db()
+    cursor = connection.cursor()
+    cursor.execute("""
+    DELETE `ProductID` 
+    WHERE `Cart`    
+""", () )
