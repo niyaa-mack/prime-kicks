@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, flash, abort
-
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 import pymysql
@@ -45,6 +44,10 @@ def load_user(user_id):
         return None
     
     return User(result)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html.jinja"),404
 
 
 def connect_db():

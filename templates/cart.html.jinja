@@ -13,28 +13,34 @@
 <br> 
 <div class="grid grid-rows-15 border"></div>
   {% for x in cart %}
-<div class="ml-15">
-<br>
+<div class=" border m-4 w-120 grid grid-cols-2ml-15 gap-3 ">
   <img class="max-h-48 justify-items-center max-w-40" src="{{x['Image']}}"> 
   <br>
   <br>
+
+  <div class="">
   {{x["Name"]}}
-  <br>
-  <br>
+  </div>
+
+  <div>
   ${{x["Cost"]}}
-  <br> 
-  <br> 
+   </div>
+
+  <div>
   Size:{{x["Size"]}}
-  <br>
-  <br>
+  </div>
+
+  
 <form method="post" action="/cart/{{ x['ProductID'] }}/update_qty">
-  <input name="qty" type="number" value="{{x['Quantity']}}" class="border"> 
+  <input name="qty" type="number" value="{{x['Quantity']}}" class="border ml-0.5"> 
   <button type="submit">Update</button>
 </form>
+
   <div>
   <p class="mt-12 ml-0.5 text-2xl">Total: ${{ x['Cost'] * x['Quantity'] }}</p>
   <br>
   </div>
+
  </div> 
  
  {% endfor %}
