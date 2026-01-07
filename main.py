@@ -245,5 +245,37 @@ def remove_item(product_id):
     cursor = connection.cursor()
     cursor.execute("""
     DELETE `ProductID` 
-    WHERE `Cart`    
-""", () )
+    WHERE `Cart` = %s   
+""", (product_id) )
+
+@app.route("/checkout", methods = ["POST", "GET"]) 
+@login_required
+def checkout():
+    connection = connect_db()
+    cursor = connection.cursor()
+
+    cursor.execute("""SELECT * FROM `Cart` 
+        JOIN `Product` ON `Product`.`ID` = `Cart`.`ProductID` WHERE `UserID` = %s """, (current_user.id ))
+    
+    results = cursor.fetchall()
+
+    if request.form == "POST":
+        
+       #create the sale in the database
+        cursor.execute ("INSERT INTO `Sale` (`UserID`) VALUES (%s)", (current_user.id))
+
+        sale = cursor.lastrowid
+       #store items that were bought 
+        for item in results:
+            cursor.execute("INSERT INTO `OrderCart` (`SaleID`, `ProductID`, `Quantity`) VALUES (%s, %s, %s)", (sale, item['ProductID'], item['Quantity']) )
+        #empty cart
+        cursor.execute("DELETE FROM `Cart` WHERE `UserID` = %s", (current_user.id))
+        #THANK YOU SCREEN
+        redirect("/thank-you")
+    connection.close()
+
+    return render_template("checkout.html.jinja", cart=results)
+
+@app.route("/thanks")
+def thanks():
+    return render_template("thanks.html.jinja")
