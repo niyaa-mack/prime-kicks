@@ -11,12 +11,12 @@
     {% for message in get_flashed_messages() %}
             <li> {{message}} </li>
         {% endfor %}
-<div class="min-h-screen bg-white flex item-center justify-center">
-  <div class="p-10 mx-auto md:w-full md:max-w-md">
+<div class="min-h-screen bg-gray-100 text-gray-900 flex item-center justify-center">
+  <div class="p-12 mx-auto">
 <form method="post">
-    <h1 class="font-bold text-center text-2xl mb-5">LOGIN</h1>  
-    <div class="bg-white shadow w-150 justify-items-center rounded-lg ">
-      <div class="px-5 py-7">
+    <h1 class="font-bold bg-gray-100 text-center py-4 text-3xl mb-5">LOGIN</h1>  
+    <div class=" shadow w-150 justify-items-center rounded-lg ">
+      <div class="px-3 py-5">
 
         <label class="font-semibold text-sm text-gray-600 pb-1">E-mail</label>
         <input name="email" required type="text" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
@@ -24,30 +24,22 @@
         <label class="font-semibold text-sm text-gray-600 pb-1">Password</label>
         <input name="password" required type="password" class="border-1 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
 
-        <button type="button" class="bg-blue-500 focus:bg-blue-700 border focus:ring-2 text-white w-full py-2.5 text-md shadow-sm font-semibold text-center">
-            <span class="inline-block mr-2">Login</span>
+        <button type="button" class="bg-blue-500  focus:bg-blue-700 border focus:ring-2 text-white w-full py-2.5 text-md shadow-sm font-semibold text-center">
+            <span class="inline-block mr-2 rounded-lg p-2">Login</span>
         </button>
 
       </div>
 
       <div class="py-4">
         <div class="grid grid-cols-2 gap-1">
-          <div class="text-center whitespace-nowrap">
+          <div class="text-start whitespace-nowrap">
             
-            <p class="hover:bg-gray-100 focus:ring-2 border py-2.5  focus:ring-gray-400">Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a></p>
+            <p class="hover:bg-gray-100 focus:ring-2 border py-3 px-4 focus:ring-gray-400">         <a href="{{ url_for('signup') }}">Sign up here</a></p>
           </div>
         </div>
       </div>
     </div>
-    <div class="py-5">
-        <div class="grid grid-cols-2 gap-1">
-          <div class="text-center sm:text-left whitespace-nowrap">
-
-            <button class="mx-3 px-3 py-2 cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-200 focus:ring-2 focus:ring-gray-400"> 
-            </button>
-          </div>
-        </div>
-      </div>
+    
   </div>
 </div>
 </form>

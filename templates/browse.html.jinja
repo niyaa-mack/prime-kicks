@@ -8,21 +8,33 @@
   </head>
   <body>
   {% include "components/navbar.html.jinja" %}
-<h1 class=" text-3xl text-center underline text-yellow-400 text-semibold"> Browse </h1>
-<br>
-<hr>
-<div class="bg-white">
-<main class="grid grid-cols-4 gap-4 mx-2 p-7 mb-5 bg-">
-    {% for x in products %}
-    <a href="/product/{{ x['ID'] }}" class="grid p-2 gap-2">
-        <div class="grid hover:scale-108 hover:bg-gray-300 border-2">
-            <img class="max-h-48 justify-items-center max-w-40" src="{{x['Image']}}"> <br>
-            <p class="text-xl">{{x["Name"]}} </p> <br>
-            <p> ${{x["Cost"]}} </p> <br>
-             <p>Size: {{x["Size"]}}</p>
+<div class="max-w-7xl mx-auto px-1 bg-yellow-100 py-10">
+    <h1 class="text-3xl text-font-bold mb-8 text-purple-300 underline italic">Browse Sneakers</h1>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        {% for x in products %}
+        <a href="/product/{{ x['ID'] }}" 
+           class="group bg-white rounded-xl shadow hover:shadow-xl transition-all duration-300 p-4 border border-gray-200">
+
+            <div class="overflow-hidden rounded-lg">
+                <img src="{{ x['Image'] }}" 
+                     class="w-full h-48 object-contain transition-transform duration-300 group-hover:scale-105" />
+            </div>
+
+            <div class="mt-4 space-y-1">
+                <p class="text-lg font-semibold group-hover:text-gray-700">
+                    {{ x["Name"] }}
+                </p>
+
+                <p class="text-gray-600 font-medium">
+                    Price: ${{ x["Cost"] }}
+                </p>
+            </div>
+
+        </a>
+        {% endfor %}
     </div>
-    </a>
-    {% endfor %}
-</main>
+</div>
+
   </body> 
 </html></div>

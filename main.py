@@ -170,7 +170,6 @@ def signup():
             flash("password is too short ")
         else:
             connection = connect_db()
-            
             cursor = connection.cursor()
         try:
             cursor.execute("""  
@@ -182,7 +181,7 @@ def signup():
             flash("This email already has an account")
             connection.close()
         else:
-            return redirect('/login.html.jinja')
+            return redirect('/login')
 
     return render_template('signup.html.jinja')
 
@@ -197,7 +196,7 @@ def settings():
 @login_required
 def logout():
     logout_user()
-    return redirect("/homepage.html.jinja")
+    return redirect("/home")
 
 
 @app.route("/cart")
