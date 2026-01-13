@@ -12,8 +12,8 @@
 {% for message in get_flashed_messages() %}
         <li> {{message}} </li>
     {% endfor %}
-<form class=" bg-gray-20 ml-85 mt-36 space-y-7" method="Post">
-<h1 class="font-bold text-3xl ml-3 text-yellow-300 underline mt-20 shadow-w-20">Sign Up</h1>  
+<form class=" bg-gray-20 ml-85 mt-36 space-y-7 ml-30" method="Post">
+<h1 class="font-bold text-3xl ml-3 text-yellow-300 underline shadow-w-20">Sign Up</h1>  
 <div class="py-2 ">
     <label class="block mb-1 text-gray-600 font-medium">Full Name</label>
     <input name="name" required class="w-200 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" type="text" placeholder="Bryan Smith">
@@ -32,12 +32,15 @@
 
     <label class="block mb-1 text-gray-600 font-medium"> Address </label>
     <input name="address" required type="" class="w-200 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="123 Atlantic Ave"/>
-
-    <button class="w-200 bg-blue-600 hover:bg-blue-700 mb-1 text-white py-2 rounded-lg text-lg font-medium transition"" type="submit">Create Account</button>
+    <br>
+    <button class="w-200 bg-blue-600 hover:bg-blue-700 mb-1 text-white py-2 rounded-lg text-lg font-medium transition" type="submit">Create Account</button>
     </div>
-     <a class= "border px-3 py-4 " href="{{ url_for('login') }}">Login here</a>
+    
 </form>
-
+<br>
+<div>
+<a class= "border px-3 py-4 ml-180" href="{{ url_for('login') }}">Login here</a>
+</div>
 
 </body> 
 </html>

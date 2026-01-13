@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-
+from datetime import datetime
 import pymysql
 
 from dynaconf import Dynaconf
@@ -63,7 +63,7 @@ def connect_db():
     return conn
 
 
-@app.route("/home")
+@app.route("/")
 def index():
     return render_template("homepage.html.jinja")
 
@@ -196,7 +196,7 @@ def settings():
 @login_required
 def logout():
     logout_user()
-    return redirect("/home")
+    return redirect("/")
 
 
 @app.route("/cart")
@@ -259,10 +259,8 @@ def checkout():
     results = cursor.fetchall()
 
     if request.form == "POST":
-        
        #create the sale in the database
         cursor.execute ("INSERT INTO `Sale` (`UserID`) VALUES (%s)", (current_user.id))
-
         sale = cursor.lastrowid
        #store items that were bought 
         for item in results:
@@ -270,7 +268,7 @@ def checkout():
         #empty cart
         cursor.execute("DELETE FROM `Cart` WHERE `UserID` = %s", (current_user.id))
         #THANK YOU SCREEN
-        redirect("/thank-you")
+        redirect("/thanks")
     connection.close()
 
     return render_template("checkout.html.jinja", cart=results)
@@ -278,3 +276,29 @@ def checkout():
 @app.route("/thanks")
 def thanks():
     return render_template("thanks.html.jinja")
+
+@app.route("/order")
+@login_required
+def order():
+    connection = connect_db()
+    cursor = connection.cursor()
+
+
+    cursor.execute("""
+        SELECT
+             `Sale`.`ID`,
+            `Sale`.`Timestamp`,
+            SUM(`OrderCart`.`Quantity`) AS 'Quantity',
+            SUM(`OrderCart.`Quantity` *`Product`.`Price`) AS 'Total'
+        FROM `Sale`
+        JOIN `OrderCart` ON `OrderCart`.`SaleID` = `Sale`.`ID`
+        JOIN `Product` ON `Product`.`ID` = `OrderCart`.`ProductID`
+        WHERE `UserID` =%s
+        GROUP BY `Sale`.`ID`;
+    """,(current_user.id,))
+
+    results = cursor.fetchall()
+
+    connection.close()
+
+    return render_template("orders.html.jinja", order=results)
