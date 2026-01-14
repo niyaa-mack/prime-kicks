@@ -98,7 +98,16 @@ def product_page(product_id):
     if result is None:
         abort(404)
 
-    return render_template("product.html.jinja", product=result)
+    if User.is_authenticated:
+        cursor.execute("""
+        SELECT * FROM `Reviews`
+        JOIN `Users` ON `Reviews`.`UserID` = User.ID
+        WHERE `Reviews`.`ProductID` = %s
+    """, (product_id,))
+
+    reviews = cursor.fetchall()
+
+    return render_template("product.html.jinja", product=result, reviews=reviews)
     
 
 @app.route("/product/<product_id>/add_to_cart", methods=["POST"])
@@ -253,8 +262,11 @@ def checkout():
     connection = connect_db()
     cursor = connection.cursor()
 
-    cursor.execute("""SELECT * FROM `Cart` 
-        JOIN `Product` ON `Product`.`ID` = `Cart`.`ProductID` WHERE `UserID` = %s """, (current_user.id ))
+    cursor.execute("""
+        SELECT * FROM `Cart` 
+        JOIN `Product` ON `Product`.`ID` = `Cart`.`ProductID` 
+        WHERE `UserID` = %s 
+        """, (current_user.id ))
     
     results = cursor.fetchall()
 
@@ -289,11 +301,11 @@ def order():
              `Sale`.`ID`,
             `Sale`.`Timestamp`,
             SUM(`OrderCart`.`Quantity`) AS 'Quantity',
-            SUM(`OrderCart.`Quantity` *`Product`.`Price`) AS 'Total'
+            SUM(`OrderCart`.`Quantity` *`Product`.`Cost`) AS 'Total'
         FROM `Sale`
         JOIN `OrderCart` ON `OrderCart`.`SaleID` = `Sale`.`ID`
         JOIN `Product` ON `Product`.`ID` = `OrderCart`.`ProductID`
-        WHERE `UserID` =%s
+        WHERE `UserID` = %s
         GROUP BY `Sale`.`ID`;
     """,(current_user.id,))
 
@@ -302,3 +314,4 @@ def order():
     connection.close()
 
     return render_template("orders.html.jinja", order=results)
+

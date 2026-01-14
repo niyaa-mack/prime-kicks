@@ -30,6 +30,18 @@
             <input type="number" name="qty" value="1" min="1" max="4" class="border ml-2 w-16">
             <button type="submit" class="block mt-4 h-10 px-6 font-semibold border hover:bg-gray-200 rounded inline-block py-2"> Add to cart </button>
         </form>
+        <h2>Customer Reviews</h2>
+
+{% for review in reviews %}
+  <div class="review">
+    <strong>{{ review.UserID}}</strong>
+    <span>⭐ {{ review.rating }}/5</span>
+    <p>{{ review.comment }}</p>
+    <small>{{ review.created_at }}</small>
+  </div>
+{% else %}
+  <p>No reviews yet.</p>
+{% endfor %}
     </div>
 
 </div>
