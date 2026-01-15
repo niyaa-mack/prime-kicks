@@ -6,46 +6,46 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-  
   {% include "components/navbar.html.jinja" %}
-  
-   <div class="border-2 bg-white mt-16 max-w-7xl w mx-auto p-8 flex gap-10">
+   <div class=" bg-gray-200 mt-16 max-w-7xl w mx-auto p-8 flex gap-10">
 
-    <img
-        src="{{ product['Image'] }}"
-        alt="{{ product['Name'] }}"
-        class="w-80 h-80 object-contain"
-    >
-
+    <img src="{{ product['Image'] }}" alt="{{ product['Name'] }}" class="w-80 h-80 object-contain">
     <div>
-        <h1 class="text-2xl font-semibold mt-6 text-gray-900">
-            {{ product["Name"] }}
-        </h1>
-
+        <h1 class="text-2xl font-semibold mt-6 text-gray-900"> {{ product["Name"] }}</h1>
         <p class="mt-6 text-lg">$ {{ product["Cost"] }}</p>
         <p class="mt-6">Size: {{ product["Size"] }}</p>
 
         <form method="post" action="/product/{{ product['ID'] }}/add_to_cart" class="mt-6">
             <label>Qty:</label>
             <input type="number" name="qty" value="1" min="1" max="4" class="border ml-2 w-16">
+            <br>
             <button type="submit" class="block mt-4 h-10 px-6 font-semibold border hover:bg-gray-200 rounded inline-block py-2"> Add to cart </button>
         </form>
-        <h2>Customer Reviews</h2>
+        </div>
+<div class="ml-30 mt-10">
+        <h2 class="font-semibold">Customer Reviews</h2>
+        <br>
+<form method="post" action="/product/{{product['ID']}}/review">
 
-{% for review in reviews %}
-  <div class="review">
-    <strong>{{ review.UserID}}</strong>
-    <span>⭐ {{ review.rating }}/5</span>
-    <p>{{ review.comment }}</p>
-    <small>{{ review.created_at }}</small>
-  </div>
-{% else %}
-  <p>No reviews yet.</p>
-{% endfor %}
-    </div>
+<label class="font-semibold">Rating</label>
+<input name="rating" type="radio" value="1">
+<input name="rating" type="radio" value="2">
+<input name="rating" type="radio" value="3">
+<input name="rating" type="radio" value="4">
+<input name="rating" type="radio" value="5">
+<br>
+<br>
 
+<label class="font-semibold">Comments</label> 
+<br>
+<textarea name="comment" class="border"></textarea>
+<br>
+<br>
+
+<button type="submit" class="border py-2 px-2 font-bold">Submit</button>
+</form> 
 </div>
-
-    
+</div>
+</div>
   </body>   
 </html> 

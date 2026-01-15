@@ -32,6 +32,7 @@ class User:
     def get_id(self):
         return str(self.id)
     
+
 @login_manager.user_loader
 def load_user(user_id):
     connection = connect_db()
@@ -44,6 +45,7 @@ def load_user(user_id):
         return None
     
     return User(result)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -93,19 +95,19 @@ def product_page(product_id):
 
     result = cursor.fetchone()
 
-    connection.close()
-
     if result is None:
         abort(404)
 
     if User.is_authenticated:
         cursor.execute("""
-        SELECT * FROM `Reviews`
-        JOIN `Users` ON `Reviews`.`UserID` = User.ID
-        WHERE `Reviews`.`ProductID` = %s
+        SELECT * FROM `Review`
+        JOIN `User` ON `Review`.`UserID` = User.ID
+        WHERE `Review`.`ProductID` = %s
     """, (product_id,))
 
     reviews = cursor.fetchall()
+
+    connection.close()
 
     return render_template("product.html.jinja", product=result, reviews=reviews)
     
@@ -245,6 +247,25 @@ def update_cart(product_id):
     return redirect("/cart")
 
 
+@app.route("/product/<product_id>/review", methods=["POST"])
+@login_required
+def add_review(product_id):
+#get input values from the form
+    rating = request.form["rating"]
+    comments = request.form["comment"]
+#connect the database
+    connection = connect_db()
+    cursor = connection.cursor()
+#add the review to the database 
+    cursor.execute(""" 
+    INSERT INTO `Review` 
+    (`Rating`, `Comment`, `UserID`, `ProductID`) 
+    VALUES (%s, %s, %s, %s)
+    """, (rating, comments, current_user.id, product_id))
+#return user back to the product page 
+    return redirect(f"/product/{product_id}")
+
+
 @app.route("/cart/<product_id>/remove_item", methods=['POST'])
 @login_required
 def remove_item(product_id):
@@ -255,6 +276,7 @@ def remove_item(product_id):
     DELETE `ProductID` 
     WHERE `Cart` = %s   
 """, (product_id) )
+
 
 @app.route("/checkout", methods = ["POST", "GET"]) 
 @login_required
@@ -285,9 +307,11 @@ def checkout():
 
     return render_template("checkout.html.jinja", cart=results)
 
+
 @app.route("/thanks")
 def thanks():
     return render_template("thanks.html.jinja")
+
 
 @app.route("/order")
 @login_required
@@ -314,4 +338,6 @@ def order():
     connection.close()
 
     return render_template("orders.html.jinja", order=results)
+
+
 
