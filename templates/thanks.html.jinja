@@ -8,5 +8,10 @@
 
   <body>
     {% include "components/navbar.html.jinja" %}
+    {%for %}
+<h1>Thank You, {{ user_name }}!</h1>
+<p>Your order #{{ order_id }} has been placed successfully.</p>
+<p>What's next? <a href="/dashboard">View your dashboard</a></p>
+
   </body>
 </html>

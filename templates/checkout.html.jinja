@@ -13,18 +13,17 @@
     {% for x in cart %}
   <div class="border p-4 m-4 grid grid-cols-2 gap-4 max-w-xl">
     <img class="max-h-48 max-w-40 object-cover" src="{{ x['Image'] }}" />
-
-    <div>
+    <div class="py-3 m-2">
       <p class="font-semibold text-lg">{{ x["Name"] }}</p>
-      <p>${{ x["Cost"] }}</p>
-      <p>Size: {{ x["Size"] }}</p>
-      <p class="mt-4 font-bold">
-        Total: ${{ x['Cost'] * x['Quantity'] }}
-      </p>
+      ${{ x["Cost"] }}
+      Size: {{ x["Size"] }}
+      Qty: {{x["Quantity"]}}
+      <p class="mt-4 font-bold"> Total: ${{ x['Cost'] * x['Quantity'] }} </p>
     </div>
   </div>
-{% endfor %}
-  </div>
+    {% endfor %}
+</div>
+
 <div class="grid justify-end mr-120">
 <form action="/checkout" method="post" class="max-w-xl m-4 px-33 py-3 grid gap-4">
 
@@ -32,26 +31,20 @@
   <input name="address" type="address" required class="border px-2">
 
   <label class="font-bold text-2xl">Card Information</label>
-   <label>Name on Card</label>
+  <label>Name on Card</label>
   <input name="name" required type="text" class="border px-2 ">
 
   <label>Card Number</label>
   <input name="card_number" required type="text" class="border px-2">
 
-<label>Expir</label>
-<input name="ex" type="month" 
-required class="border px-2">
-
+  <label>Expir</label>
+  <input name="ex" type="month" required class="border px-2">
 
   <label>Security Code</label>
   <input name="security_code" required type="text" min="1" max="4" class="border px-2 ">
 
-  <button
-    type="submit"
-    action="/"
-    class="px-6 py-3 bg-green-600 text-white text-2xl font-bold italic rounded">
-    Place Order
-  </button>
+
+  <button type="submit" action="/thanks" class="px-6 py-3 bg-green-600 text-white text-2xl font-bold italic rounded"> Place Order </button>
 </form>
 </div>
 </div>

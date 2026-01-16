@@ -7,45 +7,85 @@
   </head>
   <body>
   {% include "components/navbar.html.jinja" %}
-   <div class=" bg-gray-200 mt-16 max-w-7xl w mx-auto p-8 flex gap-10">
-
+   <div class=" bg-gray-100 mt-16 max-w-7xl w mx-auto p-8 flex gap-10">
     <img src="{{ product['Image'] }}" alt="{{ product['Name'] }}" class="w-80 h-80 object-contain">
     <div>
-        <h1 class="text-2xl font-semibold mt-6 text-gray-900"> {{ product["Name"] }}</h1>
-        <p class="mt-6 text-lg">$ {{ product["Cost"] }}</p>
-        <p class="mt-6">Size: {{ product["Size"] }}</p>
+      <h1 class="text-2xl font-semibold mt-6 text-gray-900"> {{ product["Name"] }}</h1>
+      <p class="mt-6 text-lg">$ {{ product["Cost"] }}</p>
+      <p class="mt-6">Size: {{ product["Size"] }}</p>
 
         <form method="post" action="/product/{{ product['ID'] }}/add_to_cart" class="mt-6">
-            <label>Qty:</label>
-            <input type="number" name="qty" value="1" min="1" max="4" class="border ml-2 w-16">
-            <br>
-            <button type="submit" class="block mt-4 h-10 px-6 font-semibold border hover:bg-gray-200 rounded inline-block py-2"> Add to cart </button>
+          <label>Qty:</label>
+          <input type="number" name="qty" value="1" min="1" max="4" class="border ml-2 w-16">
+          <br>
+          <button type="submit" class="block mt-4 h-10 px-6 font-semibold border hover:bg-gray-200 rounded inline-block py-2"> Add to cart </button>
         </form>
-        </div>
-<div class="ml-30 mt-10">
-        <h2 class="font-semibold">Customer Reviews</h2>
+    </div>
+</div>
+
+  
+
+    <div class="ml-30 mt-5">
+      <br>
+        {% if current_user.is_authenticated %}
+    <h3 class="text-xl mb-4">Leave a Review</h3>
+    <form method="post" action="/product/{{ product['ID'] }}/review" class="space-y-3">
+  <body>
+      <div>
+      {% for review in reviews %}
+    <div class="border-b border-gray-700 pb-4">
+      <div class="flex justify-between items-center mb-2">
+        <p class="font-semibold text-black"> 
+        User: {{review['UserID']}}
         <br>
-<form method="post" action="/product/{{product['ID']}}/review">
+        Comment: {{review['Comment']}}
+        <br>
+        Rating: {{review['Rating']}}★
+        </p>
+        <p class="text-md text-gray-400">
+        {{ review.Timestamp.strftime('%B %d, %Y, %I:%M %p') }}
+          </p>
+        </div>
 
-<label class="font-semibold">Rating</label>
-<input name="rating" type="radio" value="1">
-<input name="rating" type="radio" value="2">
-<input name="rating" type="radio" value="3">
-<input name="rating" type="radio" value="4">
-<input name="rating" type="radio" value="5">
-<br>
-<br>
+      
+        
 
-<label class="font-semibold">Comments</label> 
-<br>
-<textarea name="comment" class="border"></textarea>
-<br>
-<br>
+        <p class="text-gray-300">{{ review.comment }}</p>
+      </div>
+      {% endfor %} 
+        <label class="block mb-1">Rating</label>
+        <select name="rating"
+                class="w-full bg-gray-400 border border-gray-600 rounded-lg px-3 py-2 text-white"
+                required>
+          <option value="">Select rating</option>
+          <option value="5">★★★★★ (5)</option>
+          <option value="4">★★★★☆ (4)</option>
+          <option value="3">★★★☆☆ (3)</option>
+          <option value="2">★★☆☆☆ (2)</option>
+          <option value="1">★☆☆☆☆ (1)</option>
+        </select>
+      </div>
 
-<button type="submit" class="border py-2 px-2 font-bold">Submit</button>
-</form> 
+      <div>
+        <label class="block mb-1">Comment</label>
+        <textarea name="comment" rows="4" class="w-full bg-gray-400 border border-gray-600 rounded-lg px-3 py-2 text-white" required></textarea>
+      </div>
+
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow">
+        Submit Review
+      </button>
+
+    </form>
+  </div>
+  {% else %}
+    <p class="mt-6 text-gray-400">
+      <a href="/login" class="underline hover:text-white">Log in</a> to leave a review.
+    </p>
+  {% endif %}
 </div>
 </div>
 </div>
-  </body>   
+</div>
+
+</body>   
 </html> 

@@ -8,14 +8,14 @@
   </head>
   <body>
   {% include "components/navbar.html.jinja" %}
-<div class="max-w-7xl mx-auto px-4 py-14 bg-gradient-to-b from-gray-50 to-white">
+<div class="max-w-7xl mx-auto px-5 py-14 bg-gradient-to-b bg-gray-200 to-white">
     
     
 <h1 class="text-4xl font-extrabold mb-12 text-purple-400 tracking-tight italic underline decoration-purple-300"> Browse Sneakers </h1>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
  {% for x in products %}
   <a href="/product/{{ x['ID'] }}" class="group relative bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 p-5">
-    <div class="overflow-hidden rounded-xl bg-gray-50">
+    <div class="overflow-hidden rounded-xl">
       <img src="{{ x['Image'] }}" class="w-full h-48 object-contain transition-transform duration-500 group-hover:scale-110"/> </div>
 
             
@@ -32,28 +32,6 @@
         {% endfor %}
     </div>
 </div>
-<div class="max-w-7xl mx-auto px-4 py-14 bg-gradient-to-b from-gray-50 to-white">
-  <h1 class="text-4xl font-extrabold mb-12 text-purple-400 tracking-tight italic underline decoration-purple-300"> Browse Sneakers </h1>
-
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-    {% for x in products %}
-    <a href="/product/{{ x['ID'] }}" class="group relative bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 p-5">
-
-            
-  <div class="overflow-hidden rounded-xl bg-gray-50">
-    <img src="{{ x['Image'] }}" class="w-full h-48 object-contain transition-transform duration-500 group-hover:scale-110" />
-  </div>
   
-  <div class="mt-4 space-y-2">
-    <p class="text-lg font-semibold text-gray-800 group-hover:text-purple-500 transition-colors"> {{ x["Name"] }} </p>
-
- <div class="flex items-center justify-between">
-    <p class="text-gray-600 font-medium"> ${{ x["Cost"] }} </p>
-
-<span class="text-xs font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-600"> New </span>
-  </div>
-</div>
-</a>      
-  {% endfor %}
     </div>
 </div>

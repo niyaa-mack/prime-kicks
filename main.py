@@ -247,22 +247,26 @@ def update_cart(product_id):
     return redirect("/cart")
 
 
-@app.route("/product/<product_id>/review", methods=["POST"])
+@app.route("/product/<product_id>/reviews", methods=["POST"])
 @login_required
 def add_review(product_id):
-#get input values from the form
     rating = request.form["rating"]
-    comments = request.form["comment"]
-#connect the database
+    comment = request.form["comment"]
+   
+   
     connection = connect_db()
     cursor = connection.cursor()
-#add the review to the database 
-    cursor.execute(""" 
-    INSERT INTO `Review` 
-    (`Rating`, `Comment`, `UserID`, `ProductID`) 
-    VALUES (%s, %s, %s, %s)
-    """, (rating, comments, current_user.id, product_id))
-#return user back to the product page 
+
+    cursor.execute("""
+      INSERT INTO Reviews
+             (Ratings, Comments, UserID, ProductID)
+       VALUES
+            (%s,%s,%s,%s)
+      """,(rating, comment, current_user.id, product_id))
+    
+
+    connection.close()
+
     return redirect(f"/product/{product_id}")
 
 
